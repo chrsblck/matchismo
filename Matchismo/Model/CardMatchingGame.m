@@ -28,8 +28,6 @@
 {
     self = [super init];
     
-    NSLog(@"card count is: %d", count);
-    
     if (self) {
         for (int i = 0; i < count; i++) {
             Card *card = [deck drawRandomCard];
@@ -74,7 +72,7 @@ static const int COST_TO_CHOOSE = 1;
                         self.score -= MISMATCH_PENATLY;
                         otherCard.chosen = NO;
                     }
-                    break; // only 2 cards can be chosen for now
+                    break; // TODO: only 2 cards can be chosen for now
                 }
             }
             self.score -= COST_TO_CHOOSE;
