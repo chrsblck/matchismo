@@ -32,6 +32,26 @@
     return [[PlayingDeck alloc] init];
 }
 
+- (IBAction)resetButton:(UIButton *)sender
+{
+    NSLog(@"Restart game...");
+    
+    //self.game = nil;
+    for (int i = 1; i < [self.cardButtons count]; i++) {
+        UIButton *cardButton = self.cardButtons[i];
+        int cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
+        Card *card = [self.game cardAtIndex:cardButtonIndex];
+        card.chosen = NO;
+        card.matched = NO;
+        
+        [cardButton setTitle:@"" forState:UIControlStateNormal];
+        [cardButton setBackgroundImage:[UIImage imageNamed:@"cardback"] forState:UIControlStateNormal];
+        cardButton.enabled = YES;
+    }
+    
+    self.game = nil;
+}
+
 - (IBAction)touchCardButton:(UIButton *)sender
 {
     int chooseButtonIndex = [self.cardButtons indexOfObject:sender];
