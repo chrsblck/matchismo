@@ -50,6 +50,7 @@
     }
     
     self.game = nil;
+    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender
