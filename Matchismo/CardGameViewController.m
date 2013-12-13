@@ -87,6 +87,8 @@
         [matchedString appendString:@" "];
     }
     
+    [matchedString appendFormat:@"- %d points", self.game.lastScore];
+    
     return matchedString;
 }
 
