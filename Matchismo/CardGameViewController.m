@@ -14,6 +14,7 @@
 @interface CardGameViewController ()
 @property (nonatomic, strong) CardMatchingGame *game;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *matchedLabel;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @end
 
@@ -34,9 +35,6 @@
 
 - (IBAction)resetButton:(UIButton *)sender
 {
-    NSLog(@"Restart game...");
-    
-    //self.game = nil;
     for (int i = 1; i < [self.cardButtons count]; i++) {
         UIButton *cardButton = self.cardButtons[i];
         int cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
@@ -51,6 +49,7 @@
     
     self.game = nil;
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+    self.matchedLabel.text = [NSString stringWithFormat:@"Last Matched: "];
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender
@@ -74,6 +73,21 @@
         cardButton.enabled = !card.isMatched;
         self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
     }
+    
+    self.matchedLabel.text = [self getLastMatchedCards];
+}
+
+-(NSString *)getLastMatchedCards
+{
+    NSMutableArray *matchedCards = self.game.lastMatchedCards;
+    NSMutableString *matchedString = [NSMutableString stringWithFormat:@"Last Matched: "];
+    
+    for (Card *card in matchedCards) {
+        [matchedString appendString:card.contents];
+        [matchedString appendString:@" "];
+    }
+    
+    return matchedString;
 }
 
 -(NSString *)titleForCard:(Card *)card

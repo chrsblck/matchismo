@@ -20,5 +20,7 @@
 -(Card *)cardAtIndex:(NSUInteger)index;
 
 @property (nonatomic, readonly) NSInteger score;
+@property (nonatomic, readonly, strong) NSMutableArray *lastMatchedCards;
+
 
 @end
