@@ -175,7 +175,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="resetButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="sS3-1d-1HW"/>
+                                    <action selector="resetButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="f12-lp-t0d"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Last Matched: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4AJ-cq-J0D">
@@ -203,6 +203,7 @@
                     <connections>
                         <outlet property="matchedLabel" destination="4AJ-cq-J0D" id="MPU-jh-deE"/>
                         <outlet property="scoreLabel" destination="ctA-PZ-csM" id="BhW-NL-Fas"/>
+                        <outlet property="segmentedControlButton" destination="XZc-P0-znk" id="yfo-Gb-Cch"/>
                         <outletCollection property="cardButtons" destination="kh9-bI-dsS" id="PP5-Bl-JGp"/>
                         <outletCollection property="cardButtons" destination="Ei7-vd-JJm" id="MZv-Te-5Pi"/>
                         <outletCollection property="cardButtons" destination="H1E-0D-t5K" id="u0d-7k-3pN"/>

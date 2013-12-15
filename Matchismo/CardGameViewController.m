@@ -15,6 +15,7 @@
 @property (nonatomic, strong) CardMatchingGame *game;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *matchedLabel;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segmentedControlButton;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @end
 
@@ -38,13 +39,8 @@
     UISegmentedControl *segmentControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentControl.selectedSegmentIndex;
     
-    if (self.game.newGame) {
-        self.game.cardsToMatch = selectedSegment == 0 ? 2 : 3;
-    
-        NSLog(@"cards to match is: %d", self.game.cardsToMatch);
-    } else {
-        //segmentControl.enabled = NO;
-    }
+    self.game.cardsToMatch = selectedSegment == 0 ? 2 : 3;
+    NSLog(@"cards to match is: %d", self.game.cardsToMatch);
 }
 
 - (IBAction)resetButton:(UIButton *)sender
@@ -64,6 +60,8 @@
     self.game = nil;
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
     self.matchedLabel.text = [NSString stringWithFormat:@"Last Matched: "];
+    self.segmentedControlButton.enabled = YES;
+    self.segmentedControlButton.selectedSegmentIndex = (self.game.cardsToMatch - 2);
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender
@@ -75,6 +73,9 @@
 
 -(void)updateUI
 {
+    // 'n' card match (UISeg...Control) can only be done before start of game
+    self.segmentedControlButton.enabled = NO;
+    
     // FIXME: not sure why self.cardButtons[0] isa UIView and not UIButton
     //for (UIButton *cardButton in self.cardButtons) {
     for (int i = 1; i < [self.cardButtons count]; i++) {

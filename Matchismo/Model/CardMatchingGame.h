@@ -19,7 +19,6 @@
 -(void)chooseCardAtIndex:(NSUInteger)index;
 -(Card *)cardAtIndex:(NSUInteger)index;
 
-@property (nonatomic, readwrite) BOOL newGame;
 @property (nonatomic, readonly) NSInteger score;
 @property (nonatomic, readonly) NSInteger lastScore;
 @property (nonatomic, readwrite) NSInteger cardsToMatch;
