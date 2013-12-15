@@ -18,11 +18,26 @@
 @end
 
 @implementation CardMatchingGame
+@synthesize cardsToMatch=_cardsToMatch;
 
 -(NSMutableArray *)cards
 {
     if (!_cards) _cards = [[NSMutableArray alloc] init];
     return _cards;
+}
+
+-(NSInteger)cardsToMatch
+{
+    if (!_cardsToMatch) _cardsToMatch = 2;
+    
+    return _cardsToMatch;
+}
+
+-(void)setCardsToMatch:(NSInteger)cardsToMatch
+{
+    if (cardsToMatch == 2 || cardsToMatch == 3) {
+        _cardsToMatch = cardsToMatch;
+    }
 }
 
 -(NSMutableArray *)lastMatchedCards
@@ -47,6 +62,7 @@
                 break;
             }
         }
+        self.newGame = TRUE;
     }
     
     return self;
@@ -61,9 +77,12 @@ static const int MISMATCH_PENATLY = 2;
 static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
 
+// this is a mess
 -(void)chooseCardAtIndex:(NSUInteger)index
 {
     Card *card = [self cardAtIndex:index];
+    NSInteger chosenCount = 0;
+    NSMutableArray *chosenCards = [[NSMutableArray alloc] init];
     
     if (!card.isMatched) {
         if (card.isChosen) {
@@ -72,28 +91,47 @@ static const int COST_TO_CHOOSE = 1;
             // match against other chosen cards
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
-                    int matchScore = [card match:@[otherCard]];
-                    if (matchScore) {
+                    // count chosen cards
+                    chosenCount++;
+                    [chosenCards addObject:otherCard];
+                    
+                    if (chosenCount == self.cardsToMatch) {
+                        break;
+                    }
+                }
+            }
+            
+            if ([chosenCards count] == (self.cardsToMatch - 1)) {
+                int matchScore = [card match:chosenCards];
+                if (matchScore) {
+                    // cleanup old matches
+                    [self.lastMatchedCards removeAllObjects];
+                    
+                    for (Card *otherCard in chosenCards) {
                         self.lastScore = matchScore * MATCH_BONUS;
                         self.score += self.lastScore;
                         otherCard.matched = YES;
-                        card.matched = YES;
                         
-                        // update lastMatchedCards
-                        [self.lastMatchedCards removeAllObjects];
+                        // add matched cards
                         [self.lastMatchedCards addObject:otherCard];
-                        [self.lastMatchedCards addObject:card];
-                    } else {
-                        self.score -= MISMATCH_PENATLY;
+
+                    }
+                    card.matched = YES;
+                    [self.lastMatchedCards addObject:card];
+                } else {
+                    self.score -= MISMATCH_PENATLY;
+                    for (Card *otherCard in chosenCards) {
                         otherCard.chosen = NO;
                     }
-                    break; // TODO: only 2 cards can be chosen for now
                 }
             }
+            
             self.score -= COST_TO_CHOOSE;
             card.chosen = YES;
         }
     }
+    
+    self.newGame = NO;
 }
 
 

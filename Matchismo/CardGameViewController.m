@@ -33,6 +33,20 @@
     return [[PlayingDeck alloc] init];
 }
 
+- (IBAction)matchCount:(id)sender
+{
+    UISegmentedControl *segmentControl = (UISegmentedControl *) sender;
+    NSInteger selectedSegment = segmentControl.selectedSegmentIndex;
+    
+    if (self.game.newGame) {
+        self.game.cardsToMatch = selectedSegment == 0 ? 2 : 3;
+    
+        NSLog(@"cards to match is: %d", self.game.cardsToMatch);
+    } else {
+        //segmentControl.enabled = NO;
+    }
+}
+
 - (IBAction)resetButton:(UIButton *)sender
 {
     for (int i = 1; i < [self.cardButtons count]; i++) {
